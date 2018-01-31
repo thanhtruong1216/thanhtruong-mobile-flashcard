@@ -11,11 +11,11 @@ let decksImfomation = {
     questions: [
       {
         question: 'What is React?',
-        answer: 'A library for managing user interfaces'
+        answer: 'Yes!'
       },
       {
         question: 'Where do you make Ajax requests in React?',
-        answer: 'The componentDidMount lifecycle event'
+        answer: 'No!'
       }
     ]
   },
@@ -24,7 +24,7 @@ let decksImfomation = {
     questions: [
       {
         question: 'What is a closure?',
-        answer: 'The combination of a function and the lexical environment within which that function was declared.'
+        answer: 'Yes!'
       }
     ]
   },
@@ -33,15 +33,15 @@ let decksImfomation = {
     questions: [
       {
         question: 'What is a while loop?',
-        answer: 'Repeatedly executes a target statement as long as a given condition is true.'
+        answer: 'No!'
       },
       {
-        question: 'What is a function',
-        answer: 'A function is a block of organized, reusable code that is used to perform a single, related action'
+        question: 'What is a function?',
+        answer: 'Yes!'
       },
       {
         question: 'What is Inheritance',
-        answer: 'The transfer of the characteristics of a class to other classes that are derived from it.'
+        answer: 'No!'
       }
     ]
   }

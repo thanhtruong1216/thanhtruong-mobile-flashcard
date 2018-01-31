@@ -14,13 +14,15 @@ class Deck extends Component {
       title: ''
     },
   }
-  static navigationOptions = { title: 'Deck' };
+
   openQuizPage = (title) => {
     this.props.navigation.navigate('Quiz', {title})
   }
+
   openAddCardToDeckPage = () => {
     this.props.navigation.navigate('AddCardToDeck')
   }
+
   componentDidMount() {
     const { title } = this.props.navigation.state.params;
     getDeck(title)
@@ -33,24 +35,28 @@ class Deck extends Component {
 
   render() {
     const { deck } = this.state;
-
-    console.log('from state {deck}', {deck})
-    
     return(
-      <View style={styles.container}>
-        <Text style={styles.cardTitle}>{deck.title} Deck</Text>
         <ScrollView style={styles.container}>
-          <Text>{deck.questions.length} cards</Text>
-          {/*{ deck.questions && deck.questions.map(question => (
-            <View style={styles.container}>
-              <Text style={styles.cardTitle}>{question.question}</Text>
-              <Text>{question.answer}</Text>
-            </View>
-          ))}*/}
-          <Button onPress={this.openAddCardToDeckPage} title="Add card"/>
-          <Button onPress={this.openQuizPage} title="Start Quiz"/>
+          <View style={styles.title}>
+            <Text style={styles.cardTitle}>{deck.title} Deck</Text>
+            <Text>{deck.questions.length} cards</Text>
+          </View>
+          <View style={{flex: 1, justifyContent: 'center', paddingHorizontal: 10, margin: 5}}>
+            <TouchableOpacity 
+              onPress={this.openAddCardToDeckPage} title="Add card"
+              style={{borderWidth: 2, borderRadius: 5, width: 200,  alignItems: 'center', padding:10}}>
+              <Text>Add card</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={{flex: 1, justifyContent: 'center', paddingHorizontal: 10, margin: 5}}>
+            <TouchableOpacity 
+              onPress = {() => this.openQuizPage(deck.title)} 
+              style={{borderWidth: 2, width: 200, borderRadius: 5, alignItems: 'center', padding:10}}> 
+              <Text>Start Quiz</Text>
+            </TouchableOpacity>
+          </View>
         </ScrollView>
-      </View>
+      
      );
   }
 }
@@ -61,6 +67,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 20
   },
+  title: {
+    flex: 1,
+    alignItems: 'center',
+    height: 300,
+    lineHeight: 20
+  },
   card: {
     width: 200,
     height: 120,
@@ -69,7 +81,8 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     color: 'brown',
-    fontSize: 20
+    fontSize: 20,
+    height: 50
   },
   face: {
     width: 200,

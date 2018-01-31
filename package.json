@@ -26,6 +26,7 @@
     "react-native": "0.52.0",
     "react-native-bundle": "^0.0.4",
     "react-native-flip-card": "^3.5.2",
+    "react-native-in-app-notification": "^2.2.0",
     "react-native-key-storage": "^0.2.1",
     "react-navigation": "^1.0.0-beta.27",
     "react-router-native": "^4.2.0"

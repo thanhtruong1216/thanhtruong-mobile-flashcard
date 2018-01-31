@@ -10,8 +10,8 @@ import { NativeRouter, Route, Link } from 'react-router-native';
 import { StackNavigator } from 'react-navigation';
 import Deck from './Deck';
 import CreateDeck from './CreateDeck';
-
 import QuizPage from './QuizPage';
+import AddCardToDeck from './AddCard';
 
 class Decks extends Component {
   state = {
@@ -41,7 +41,7 @@ class Decks extends Component {
         { Object.keys(decks).map(key => (
           <View style={styles.container}>
             <Button onPress = {() => this.openDeckPage(decks[key].title) } title={decks[key].title}/>
-            <Text>{decks[key].questions.length} card </Text> 
+            <Text>{decks[key].questions.length} cards </Text> 
           </View>
           )
         )}
@@ -90,5 +90,5 @@ export default Decks =  StackNavigator({
   First: {screen: Decks},
   Deck: {screen: Deck},
   Quiz: {screen: QuizPage},
-  AddCardToDeck: {screen: CreateDeck}
+  AddCardToDeck: {screen: AddCardToDeck}
 })
