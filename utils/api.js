@@ -1,21 +1,22 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, AsyncStorage } from 'react-native';
 import { FontAwesome, MaterialIcons, MaterialCommunityIcons} from '@expo/vector-icons';
-import { AsyncStorage } from 'react-native';
 import { Notifications, Permissions } from 'expo';
 
-export const STORAGE_KEY = 'deck-flash-cards';
+export const NOTIFICATION_KEY = 'mobileflashcard:notifications';
+export const STORAGE_KEY = "thanhtruong:mobileflashcard";
+
 let decksImfomation = {
   React: {
     title: 'React',
     questions: [
       {
-        question: 'What is React?',
+        question: "The stylesheet API allows us to define multiple in a single place?",
         answer: 'Yes!'
       },
       {
-        question: 'Where do you make Ajax requests in React?',
-        answer: 'No!'
+        question: 'Using CSS in JS gives us access application state or props in the component?',
+        answer: 'Yes!'
       }
     ]
   },
@@ -23,8 +24,12 @@ let decksImfomation = {
     title: 'JavaScript',
     questions: [
       {
-        question: 'What is a closure?',
+        question: 'Both the <head> section and the <body> section are the correct place to insert a JavaScript?',
         answer: 'Yes!'
+      },
+      {
+        question: 'The external JavaScript file must contain the <script> tag?',
+        answer: 'No!'
       }
     ]
   },
@@ -32,23 +37,19 @@ let decksImfomation = {
     title: 'Python',
     questions: [
       {
-        question: 'What is a while loop?',
-        answer: 'No!'
-      },
-      {
-        question: 'What is a function?',
+        question: 'Python is a high level programming language?',
         answer: 'Yes!'
       },
       {
-        question: 'What is Inheritance',
-        answer: 'No!'
-      }
+        question: 'Variable name can start with an underscore?',
+        answer: 'Yes!'
+      },
     ]
   }
 }
 
 export function getDecks() {
-  return AsyncStorage.getItem(5).then(results => {
+  return AsyncStorage.getItem(STORAGE_KEY).then(results => {
     if(results === null) {
       AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(decksImfomation));
       return decksImfomation;
@@ -66,19 +67,77 @@ export function getDeck(title) {
   })
 }
 
-export function saveDeckTitle(title){
-  return AsyncStorage.mergeItem(STORAGE_KEY, JSON.stringify(title));
+export function saveDeckTitle(title) {
+  const newDeck = {
+    [title]: {
+      title: title,
+      questions: []
+    }
+  }
+  return AsyncStorage.mergeItem(STORAGE_KEY, JSON.stringify(newDeck))
 }
 
-export function addCardToDeck(card, deckName) {
+export function addCardToDeck(card, title) {
   return AsyncStorage.getItem(STORAGE_KEY, (err, result) => {
     let decks = JSON.parse(result);
-    let newQuestions = JSON.parse(JSON.stringify(decks[deckName].questions));
-      newQuestions[newQuestions.length] = card;
-    const value = JSON.stringify({
-      [deckName]: {title: deckName, questions: newQuestions},
-    });
+    const deck = decks[title] || { questions: [] };
+    const newQuestions = [
+      ...deck.questions,
+      card
+    ];
+
+    const value = JSON.stringify({[title]: {title: title, questions: newQuestions}});
     AsyncStorage.mergeItem(STORAGE_KEY, value);
   });
 }
 
+
+export function clearLocalNotification() {
+  return AsyncStorage.removeItem(NOTIFICATION_KEY)
+    .then(Notifications.cancelAllScheduledNotificationsAsync)
+}
+
+function createNotification() {
+  return {
+    title: 'Let study!',
+    body: "👋 don't forget to learn today!",
+    ios: {
+      sound: true,
+    },
+    android: {
+      sound: true,
+      priority: 'high',
+      sticky: false,
+      vibrate: true,
+    }
+  }
+}
+
+export function setLocalNotification() {
+  AsyncStorage.getItem(NOTIFICATION_KEY)
+    .then(JSON.parse)
+    .then((data) => {
+      if (data === null) {
+        Permissions.askAsync(Permissions.NOTIFICATIONS)
+          .then(({ status }) => {
+            if (status === 'granted') {
+              Notifications.cancelAllScheduledNotificationsAsync()
+
+              let tomorrow = new Date()
+              tomorrow.setDate(tomorrow.getDate() + 1)
+              tomorrow.setHours(20)
+              tomorrow.setMinutes(0)
+
+              Notifications.scheduleLocalNotificationAsync(
+                createNotification(),
+                {
+                  time: tomorrow,
+                  repeat: 'day',
+                }
+              )
+              AsyncStorage.setItem(NOTIFICATION_KEY, JSON.stringify(true))
+            }
+          })
+      }
+    })
+}
