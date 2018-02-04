@@ -9,8 +9,8 @@ import { purple, white, blue} from '../utils/colors';
 
 class AddCard extends Component {
   state = {
-    question: "Python is a high level programming language?",
-    answer: 'Yes!'
+    question: "",
+    answer: ""
   }
   static navigationOptions = { title: 'Add card' };
 
@@ -40,11 +40,11 @@ class AddCard extends Component {
     return(
       <View style={styles.container}>
         <TextInput 
-          clearTextOnFocus="true" 
+          placeholder="Python is a high language?"
           onChangeText={this.handleTextQuestionChange} 
           style={styles.input} value={question}/>
         <TextInput 
-          clearTextOnFocus="true"
+          placeholder="Yes!"
           onChangeText={this.handleTextAnswerChange} 
           style={styles.input} value={answer}/>
         <View style={{flex: 1, margin: 5, width: 150}}>
