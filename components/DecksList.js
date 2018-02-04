@@ -39,7 +39,7 @@ class DecksList extends Component {
     return(
       <ScrollView contentContainerStyle={styles.container}>
         { Object.keys(decks).map(key => (
-          <View style={styles.mainContent}>
+          <View key={key} style={styles.mainContent}>
             <TouchableOpacity style={styles.card} onPress = {() => this.openDeckPage(decks[key].title) }>
               <Text style={styles.title}>{decks[key].title}</Text>
             </TouchableOpacity>
