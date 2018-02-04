@@ -35,7 +35,7 @@ class CreateDeck extends Component {
     const {addDeckHandler} = this.props;
     saveDeckTitle(input).then(() => {
       addDeckHandler(input)
-      this.props.navigation.navigate('Decks', input)
+      this.props.navigation.navigate('Deck', {title: input})
     })
     clearLocalNotification().then(setLocalNotification)
   }
@@ -46,7 +46,7 @@ class CreateDeck extends Component {
         <KeyboardAvoidingView style= {styles.container}>
           <Text style={styles.heading}>What is the title of your new deck?</Text>
             <TextInput 
-              clearTextOnFocus="true"
+              clearTextOnFocus={true}
               value={input} 
               style= {styles.textInput} 
               autoCapitalize = 'none' 
