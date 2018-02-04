@@ -34,20 +34,16 @@ class Deck extends Component {
             <Text style={styles.cardTitle}>{deck.title}</Text>
             <Text>{deck.questions.length} cards</Text>
           </View>
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity 
-              onPress= {() => this.openAddCardToDeckPage(deck.title)} title="Add card"
-              style={styles.button}>
-              <Text style={{color: white}}>Add card</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity 
-              onPress = {() => this.openQuizPage(deck.title)} 
-              style={styles.button}> 
-              <Text style={{color: white}}>Start Quiz</Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity 
+            onPress= {() => this.openAddCardToDeckPage(deck.title)} title="Add card"
+            style={styles.button}>
+            <Text style={{color: white}}>Add card</Text>
+          </TouchableOpacity>
+          <TouchableOpacity 
+            onPress = {() => this.openQuizPage(deck.title)} 
+            style={styles.button}> 
+            <Text style={{color: white}}>Start Quiz</Text>
+          </TouchableOpacity>
         </ScrollView>
       
      );
@@ -65,12 +61,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 300,
     lineHeight: 20,
-  },
-  card: {
-    width: 200,
-    height: 120,
-    marginTop: 5,
-    borderWidth: 0,
   },
   cardTitle: {
     color: 'brown',
@@ -102,14 +92,9 @@ const styles = StyleSheet.create({
     alignItems: 'center', 
     paddingHorizontal: 30,
     paddingVertical: 15,
+    marginBottom: 10,
     backgroundColor: purple
   },
-  buttonContainer: {
-    flex: 1, 
-    justifyContent: 'center', 
-    paddingHorizontal: 10, 
-    margin: 5
-  }
 });
 const mapStateToProps =(state,  {navigation}) => {
   const {title} = navigation.state.params
