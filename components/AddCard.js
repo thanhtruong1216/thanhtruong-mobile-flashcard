@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { 
+  View, 
+  Text, 
+  TextInput, 
+  StyleSheet, 
+  TouchableOpacity, 
+  KeyboardAvoidingView 
+} from 'react-native';
 import { addCard } from '../actions';
 import {connect} from 'react-redux';
 import { addCardToDeck } from '../utils/api';
 import { NavigationActions, navigation} from 'react-navigation';
-import { purple, white, blue} from '../utils/colors';
+import { purple, white } from '../utils/colors';
 
 
 class AddCard extends Component {
@@ -38,7 +45,7 @@ class AddCard extends Component {
   render() {
     const { question, answer} = this.state;
     return(
-      <View style={styles.container}>
+      <KeyboardAvoidingView style={styles.container}>
         <TextInput 
           placeholder="Python is a high language?"
           onChangeText={this.handleTextQuestionChange} 
@@ -55,7 +62,7 @@ class AddCard extends Component {
           <Text style={{color:white}} onPress={this.cancel}>Cancel</Text>
         </TouchableOpacity>
        </View>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }

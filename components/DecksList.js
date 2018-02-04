@@ -6,7 +6,6 @@ import { fetchDecks } from '../actions';
 import { connect } from 'react-redux';
 import decks from '../reducers';
 import FlipCard from 'react-native-flip-card';
-import { NativeRouter, Route, Link } from 'react-router-native';
 import { StackNavigator } from 'react-navigation';
 import Deck from './Deck';
 import CreateDeck from './CreateDeck';

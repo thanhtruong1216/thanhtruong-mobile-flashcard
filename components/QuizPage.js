@@ -185,10 +185,11 @@ const mapStateToProps = (state, {navigation}) => {
   let shouldShowScore = false;
   let remaindingQuestion = 0;
   const totalAnswers = rightAnswersCount + wrongAnswersCount;
-  if(totalAnswers === deck.questions.length ) {
+  if(totalAnswers === questionCount ) {
     score = Math.round(rightAnswersCount/(totalAnswers) * 100);
     shouldShowScore = true
   }
+
   remaindingQuestion = deck.questions.length - (totalAnswers)
   return {
     currentQuestionIndex: totalAnswers,
