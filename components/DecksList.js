@@ -37,9 +37,9 @@ class DecksList extends Component {
   render() {
     const { decks } = this.props;
     return(
-      <ScrollView style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
         { Object.keys(decks).map(key => (
-          <View style={{marginBottom: 20, paddingBottom: 5, width: 200, alignItems: 'center', borderBottomColor: 'gray', borderBottomWidth: 1}}>
+          <View style={styles.mainContent}>
             <TouchableOpacity style={styles.card} onPress = {() => this.openDeckPage(decks[key].title) }>
               <Text style={styles.title}>{decks[key].title}</Text>
             </TouchableOpacity>
@@ -57,6 +57,14 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     marginTop: 20,
+  },
+  mainContent: {
+    marginBottom: 20, 
+    paddingBottom: 5,
+    width: 200, 
+    alignItems: 'center', 
+    borderBottomColor: 'gray', 
+    borderBottomWidth: 1
   },
   card: {
     height: 50,

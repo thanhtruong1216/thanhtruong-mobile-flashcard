@@ -29,7 +29,7 @@ class Deck extends Component {
     const { decks } = this.props;
     const deck = decks[title];
     return(
-        <ScrollView style={styles.container}>
+        <ScrollView contentContainerStyle={styles.container}>
           <View style={styles.title}>
             <Text style={styles.cardTitle}>{deck.title}</Text>
             <Text>{deck.questions.length} cards</Text>
