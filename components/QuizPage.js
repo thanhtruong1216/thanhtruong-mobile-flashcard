@@ -4,13 +4,9 @@ import { getDecks, getDeck } from '../utils/api/';
 import FlipCard from 'react-native-flip-card';
 import {connect} from 'react-redux';
 import { addRightAnswer, addWrongAnswer, reset } from '../actions';
-import { purple, lightPurp } from '../utils/colors';
+import { purple } from '../utils/colors';
 
 class QuizPage extends Component {
-  state = {
-    showScore: false,
-  }
-
   static navigationOptions = { title: 'Quiz' };
 
   correctAnswer = (question) => {
@@ -23,39 +19,29 @@ class QuizPage extends Component {
     incorrectAnswerHandler(title, question.question)
   }
 
-  submit = () => {
-    const {score} = this.props
-    this.setState({
-      showScore: true
-    })
-  }
-
   reset = () => {
     const { resetHandler, title} = this.props;
     resetHandler(title)
-    this.setState({
-      showScore: false
-    })
   }
 
   render() {
-    const { decks, score} = this.props;
+    const { decks, score, shouldShowScore, remaindingQuestion, currentQuestionIndex, questionCount } = this.props;
     const { title } = this.props.navigation.state.params;
     const deck = decks[title]
     let result = null;
-    let node = null
-    if(this.state.showScore) {
+    let node = null;
+    if(shouldShowScore) {
       result = (
-        <View>
-          <Text>Corect answer rate is {score}%</Text>
+        <View style={styles.container}>
+          <Text>You answered correctly {score}%</Text>
         </View>
       )
     }
-  
+    const question = deck.questions && deck.questions[currentQuestionIndex]
     return(
       <ScrollView style={styles.container}>
-        <Text style={styles.numberCard}>{deck.questions.length}/{deck.questions.length}</Text>
-        { deck.questions && deck.questions.map(question => (
+        <Text style={styles.numberCard}>{remaindingQuestion}/{questionCount}</Text>
+        { question &&
         <View style={styles.mainContent}>
           <View style={styles.container}>
             <FlipCard style={styles.card}>
@@ -85,19 +71,13 @@ class QuizPage extends Component {
           </View>
         </View>
 
-        ))}
-          <TouchableOpacity 
-            style={styles.submitButton}
-            onPress={this.submit}>
-            <Text style={{color:'white'}}>Submit</Text>
-          </TouchableOpacity>
-          {result}
-        
-          <TouchableOpacity 
-            style={styles.resetButton}
-            onPress={this.reset}>
-            <Text style={{color:'white'}}>Reset</Text>
-          </TouchableOpacity>
+        }
+        {result}
+        <TouchableOpacity 
+          style={styles.resetButton}
+          onPress={this.reset}>
+          <Text style={{color:'white'}}>Restart Quiz</Text>
+        </TouchableOpacity>
       </ScrollView>
     );
   }
@@ -199,16 +179,28 @@ const mapStateToProps = (state, {navigation}) => {
   const {rightAnswers, wrongAnswers, decks} = state
   const rightAnswersCount = rightAnswers.filter(obj => obj.title === title).length
   const wrongAnswersCount = wrongAnswers.filter(obj => obj.title === title).length
+  const deck = decks[title];
+  const questionCount = deck.questions.length;
   let score = 0;
-  if(rightAnswersCount + wrongAnswersCount !== 0) {
-    score = rightAnswersCount/(wrongAnswersCount + rightAnswersCount) * 100;
+  let shouldShowScore = false;
+  let remaindingQuestion = 0;
+  const totalAnswers = rightAnswersCount + wrongAnswersCount;
+  if(totalAnswers === deck.questions.length ) {
+    score = Math.round(rightAnswersCount/(totalAnswers) * 100);
+    shouldShowScore = true
   }
-
-  console.log({rightAnswers, wrongAnswers, score})
+  remaindingQuestion = deck.questions.length - (totalAnswers)
   return {
+    currentQuestionIndex: totalAnswers,
+    totalAnswers,
+    wrongAnswersCount,
+    rightAnswersCount,
     title,
     decks,
+    shouldShowScore,
     score,
+    remaindingQuestion,
+    questionCount
   }
 }
 
