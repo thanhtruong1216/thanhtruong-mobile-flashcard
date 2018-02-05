@@ -2,7 +2,8 @@ import React from 'react';
 import { TabNavigator } from 'react-navigation';
 import DecksList from './DecksList';
 import CreateDeck from './CreateDeck';
-import {FontAwesome, IonIcons, Entypo} from '@expo/vector-icons';
+import { FontAwesome, IonIcons, Entypo } from '@expo/vector-icons';
+import { StyleSheet, Text, View, StatusBar, Platform } from 'react-native';
 
 export const Tabs = TabNavigator({
   'Decks': {
